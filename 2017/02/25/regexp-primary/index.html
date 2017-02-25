@@ -6,24 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>第一篇记录 | Pc&#39;s blog</title>
+  <title>正则表达式入门 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="捣鼓了很久终于顺利地部署了这个博客，虽然网上有很多教程，但是实际操作起来也是很不一样的。
-事实上，这也是我觉得要开这个博客的原因：一直以来，虽然是在努力地督促自己学习，但是感觉学的东西没有一点总结和记录，还是缺少点什么。临近毕业，也即将工作，希望这个博客能将自己一些生活学到的知识或者经历记录下来，以便日后回顾。
-并不期待有多少人会浏览，只希望这个博客会成为自己的一个秘密花园，见证着自己一点点走进梦">
+  <meta name="description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)
+正则表达式中的特殊字符感觉MDN里面的资料还是挺不错的，特此记录下里面提到过的个人感觉比较难记的部分。
+
+?：匹配前面一个表达式0次或者1次。等价于 {0,1}。此外，?还有一个比较重要的用途，即
+如果?紧跟在任何量词 *、 +、?">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一篇记录">
-<meta property="og:url" content="http://yoursite.com/2017/02/24/first-blog/index.html">
+<meta property="og:title" content="正则表达式入门">
+<meta property="og:url" content="http://yoursite.com/2017/02/25/regexp-primary/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="捣鼓了很久终于顺利地部署了这个博客，虽然网上有很多教程，但是实际操作起来也是很不一样的。
-事实上，这也是我觉得要开这个博客的原因：一直以来，虽然是在努力地督促自己学习，但是感觉学的东西没有一点总结和记录，还是缺少点什么。临近毕业，也即将工作，希望这个博客能将自己一些生活学到的知识或者经历记录下来，以便日后回顾。
-并不期待有多少人会浏览，只希望这个博客会成为自己的一个秘密花园，见证着自己一点点走进梦">
-<meta property="og:updated_time" content="2017-02-24T03:18:46.000Z">
+<meta property="og:description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)
+正则表达式中的特殊字符感觉MDN里面的资料还是挺不错的，特此记录下里面提到过的个人感觉比较难记的部分。
+
+?：匹配前面一个表达式0次或者1次。等价于 {0,1}。此外，?还有一个比较重要的用途，即
+如果?紧跟在任何量词 *、 +、?">
+<meta property="og:updated_time" content="2017-02-25T02:18:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一篇记录">
-<meta name="twitter:description" content="捣鼓了很久终于顺利地部署了这个博客，虽然网上有很多教程，但是实际操作起来也是很不一样的。
-事实上，这也是我觉得要开这个博客的原因：一直以来，虽然是在努力地督促自己学习，但是感觉学的东西没有一点总结和记录，还是缺少点什么。临近毕业，也即将工作，希望这个博客能将自己一些生活学到的知识或者经历记录下来，以便日后回顾。
-并不期待有多少人会浏览，只希望这个博客会成为自己的一个秘密花园，见证着自己一点点走进梦">
+<meta name="twitter:title" content="正则表达式入门">
+<meta name="twitter:description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)
+正则表达式中的特殊字符感觉MDN里面的资料还是挺不错的，特此记录下里面提到过的个人感觉比较难记的部分。
+
+?：匹配前面一个表达式0次或者1次。等价于 {0,1}。此外，?还有一个比较重要的用途，即
+如果?紧跟在任何量词 *、 +、?">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -177,29 +183,54 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-first-blog" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-regexp-primary" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      第一篇记录
+      正则表达式入门
     </h1>
   
 
         
-        <a href="/2017/02/24/first-blog/" class="archive-article-date">
-  	<time datetime="2017-02-24T02:46:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-24</time>
+        <a href="/2017/02/25/regexp-primary/" class="archive-article-date">
+  	<time datetime="2017-02-25T01:51:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>捣鼓了很久终于顺利地部署了这个博客，虽然网上有很多教程，但是实际操作起来也是很不一样的。</p>
-<p>事实上，这也是我觉得要开这个博客的原因：一直以来，虽然是在努力地督促自己学习，但是感觉学的东西没有一点总结和记录，还是缺少点什么。临近毕业，也即将工作，希望这个博客能将自己一些生活学到的知识或者经历记录下来，以便日后回顾。</p>
-<p>并不期待有多少人会浏览，只希望这个博客会成为自己的一个秘密花园，见证着自己一点点走进梦想。</p>
+        <p>一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)</p>
+<h2 id="正则表达式中的特殊字符"><a href="#正则表达式中的特殊字符" class="headerlink" title="正则表达式中的特殊字符"></a>正则表达式中的特殊字符</h2><p>感觉<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="external">MDN</a>里面的资料还是挺不错的，特此记录下里面提到过的个人感觉比较难记的部分。</p>
+<ol>
+<li><strong>?</strong>：匹配前面一个表达式0次或者1次。等价于 {0,1}。此外，<strong>?</strong>还有一个比较重要的用途，即<blockquote>
+<p>如果?紧跟在任何量词 *、 +、? 或 {} 的后面，将会使量词变为非贪婪的（匹配尽量少的字符），和缺省使用的贪婪模式（匹配尽可能多的字符）正好相反。例如，对 “123abc” 应用 /d+/ 将会返回 “123”，如果使用 /d+?/,那么就只会匹配到 “1”。<br>还可以运用于向前断言，如 x(?=y) 和 x(?!y) 。</p>
+</blockquote>
+</li>
+<li><strong>(x)</strong>：捕获括号。匹配 ‘x’ 并且记住匹配项。在匹配中可以使用1、2、n表示括号中的内容，而在替换中，则使用$1、$2、$n。</li>
+<li><strong>(:x)</strong>: 非捕获括号。匹配 ‘x’ 但是不记住匹配项。</li>
+<li><strong>x(?=y)</strong>：匹配’x’仅仅当’x’后面跟着’y’.这种叫做正向肯定查找。例如，/Jack(?=Sprat)/会匹配到’Jack’仅仅当它后面跟着’Sprat’。/Jack(?=Sprat|Frost)/匹配‘Jack’仅仅当它后面跟着’Sprat’或者是‘Frost’。但是‘Sprat’和‘Frost’都不是匹配结果的一部分。</li>
+<li><strong>x(!=y)</strong>：匹配’x’仅仅当’x’后面不跟着’y’,这个叫做正向否定查找。例如，/d+(?!.)/匹配一个数字仅仅当这个数字后面没有跟小数点的时候。正则表达式/d+(?!.)/.exec(“3.141”)匹配‘141’但是不是‘3.141’</li>
+</ol>
+<a id="more"></a>
+<h2 id="使用正则表达式的js方法"><a href="#使用正则表达式的js方法" class="headerlink" title="使用正则表达式的js方法"></a>使用正则表达式的js方法</h2><p>js提供了不少使用正则表达式的方法。如RegExp的exec，和String的match、replace、search和split方法。</p>
+<p>当你想要知道在一个字符串中的一个匹配是否被找到，你可以使用test或search方法；想得到更多的信息（但是比较慢）则可以使用exec或match方法。如果你使用exec或match方法并且匹配成功了，那么这些方法将返回一个数组并且更新相关的正则表达式对象的属性和预定义的正则表达式对象（详见下）。如果匹配失败，那么exec方法返回null（也就是false）。</p>
+<h2 id="match与exec区别"><a href="#match与exec区别" class="headerlink" title="match与exec区别"></a>match与exec区别</h2><p>从前往往傻傻分不清match和exec的区别，因为两者的作用都是匹配字符串，返回数组，但是在不同情况下两者所返回的内容是不同的。</p>
+<ul>
+<li><strong>当正则表达式包含子表达式且不包含全局标志g时，二者返回相同的数组。</strong></li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 示例：</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'cat10,bat20,kat30'</span>;</div><div class="line"><span class="keyword">var</span> patten = /w(at)d+/;</div><div class="line"><span class="keyword">var</span> arr = str.match(patten);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = patten.exec(str);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>当正则表达式带有全局标志g时，二者表现不一致。</strong><br>match会返回所有符合条件的匹配项，并以数组形式返回。数组第一项存放第一个匹配项，数组第二项存放第二个匹配项…依次类推。<br>exec则永远返回第一个匹配项。但是当连续调用exec时，则每次的返回值都是下一个匹配项。</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">//</span> 示例<span class="number">1</span>：</div><div class="line"></div><div class="line">var str = <span class="string">'cat,bat,kat'</span>;</div><div class="line">var patten = <span class="regexp">/at/g</span>;</div><div class="line">str.match(patten);  <span class="regexp">//</span>[<span class="string">'at'</span>, <span class="string">'at'</span>, <span class="string">'at'</span>]</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'at'</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="regexp">//</span> 示例<span class="number">2</span>：</div><div class="line"></div><div class="line">var str = <span class="string">'cat,bat,kat'</span>;</div><div class="line">var patten = <span class="regexp">/w+/g</span>;</div><div class="line">str.match(patten);  <span class="regexp">//</span>[<span class="string">'cat'</span>, <span class="string">'bat'</span>, <span class="string">'kat'</span>]</div><div class="line"></div><div class="line"><span class="regexp">//</span>第一次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'cat'</span>]</div><div class="line"><span class="regexp">//</span>第二次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'bat'</span>]</div><div class="line"><span class="regexp">//</span>第三次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'kat'</span>]</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>当正则表达式包含子表达式时且包含全局标志g时，二者表现不一致。</strong><br>match会返回所有符合条件的匹配项，并以数组形式返回。这时，match不会再返回子表达式的匹配项了。数组第一项存放第一个匹配项，数组第二项存放第二个匹配项…依次类推。<br>exec会返回子表达式的匹配项。换句话说就是，数组第一项存放整个匹配项，数组第二项存放第一个子表达式匹配项，数组第三项存放第二个子表达式匹配项…依次类推。</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 示例：</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'cat10,bat20,kat30'</span>;</div><div class="line"><span class="keyword">var</span> patten = /w(at)d+/g;</div><div class="line"><span class="keyword">var</span> arr = str.match(patten);  <span class="comment">//['cat10', 'bat20', 'kat30']</span></div><div class="line"><span class="keyword">var</span> arr = patten.exec(str);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div></pre></td></tr></table></figure>
 
       
 
@@ -213,7 +244,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">记录</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
         		</li>
       		
 		</ul>
@@ -269,7 +304,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/02/24/first-blog/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/02/25/regexp-primary/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,15 +318,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/02/25/regexp-primary/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          正则表达式入门
-        
-      </div>
-    </a>
   
+    <a href="/2017/02/24/first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第一篇记录</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
