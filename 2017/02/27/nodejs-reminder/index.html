@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 正则表达式 | Pc&#39;s blog</title>
+  <title>nodejs查漏补缺 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Where Pc records his life">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pc's blog">
-<meta property="og:url" content="http://yoursite.com/tags/正则表达式/index.html">
+  <meta name="description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
+123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs查漏补缺">
+<meta property="og:url" content="http://yoursite.com/2017/02/27/nodejs-reminder/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="Where Pc records his life">
+<meta property="og:description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
+123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
+<meta property="og:updated_time" content="2017-02-27T12:56:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pc's blog">
-<meta name="twitter:description" content="Where Pc records his life">
+<meta name="twitter:title" content="nodejs查漏补缺">
+<meta name="twitter:description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
+123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -170,64 +174,134 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-nodejs-reminder" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/25/regexp-primary/" class="archive-article-date">
-  	<time datetime="2017-02-25T01:51:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/25/regexp-primary/">正则表达式入门</a>
+    <h1 class="article-title" itemprop="name">
+      nodejs查漏补缺
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/02/27/nodejs-reminder/" class="archive-article-date">
+  	<time datetime="2017-02-27T12:41:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Node-js逐行读取写入文件内容"><a href="#Node-js逐行读取写入文件内容" class="headerlink" title="Node.js逐行读取写入文件内容"></a>Node.js逐行读取写入文件内容</h2><p>主要通过原生的<strong>readline</strong>API实现逐行读入。示例如下：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> readline = <span class="keyword">require</span>(<span class="string">'readline'</span>);</div><div class="line"><span class="built_in">var</span> fs = <span class="keyword">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="built_in">var</span> os = <span class="keyword">require</span>(<span class="string">'os'</span>);</div><div class="line"></div><div class="line"><span class="built_in">var</span> fReadName = <span class="string">'./1.log'</span>;</div><div class="line"><span class="built_in">var</span> fWriteName = <span class="string">'./1.readline.log'</span>;</div><div class="line"><span class="built_in">var</span> fRead = fs.createReadStream(fReadName);</div><div class="line"><span class="built_in">var</span> fWrite = fs.createWriteStream(fWriteName);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> objReadline = readline.createInterface(&#123;</div><div class="line">	input: fRead,</div><div class="line"><span class="comment">// 这是另一种复制方式，这样on('line')里就不必再调用fWrite.write(line)，当只是纯粹复制文件时推荐使用</span></div><div class="line"><span class="comment">// 但文件末尾会多算一次index计数   sodino.com</span></div><div class="line"><span class="comment">//  output: fWrite, </span></div><div class="line"><span class="comment">//  terminal: true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> index = <span class="number">1</span>;</div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'line'</span>, (line)=&gt;&#123;</div><div class="line">	<span class="built_in">var</span> tmp = <span class="string">'line'</span> + index.toString() + <span class="string">':'</span> + line;</div><div class="line">	fWrite.write(tmp + os.EOL); <span class="comment">// 下一行</span></div><div class="line">	console.<span class="keyword">log</span>(index, line);</div><div class="line">	index ++;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'close'</span>, ()=&gt;&#123;</div><div class="line">	console.<span class="keyword">log</span>(<span class="string">'readline close...'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="dirname和-在Node-js中的区别"><a href="#dirname和-在Node-js中的区别" class="headerlink" title="__dirname和./在Node.js中的区别"></a>__dirname和./在Node.js中的区别</h2><p>在完成任务过程中突然想到这样一个问题，于是便探究了一番。<a href="http://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js" target="_blank" rel="external">Stack Overflow</a>里面的答案解释得很好。<br>主要区别在于：__dirname是运行代码所在的目录，而.则代表你在终端运行node指令所在的目录。有个例外是，当你使用.在require()方法中，.代表含有require()方法的文件的所在目录。详细例子见上文链接。</p>
+<h2 id="Node-js作为静态服务器"><a href="#Node-js作为静态服务器" class="headerlink" title="Node.js作为静态服务器"></a>Node.js作为静态服务器</h2><p>最近几次任务需要从本地读取json文件，由于浏览器的跨域限制，读取本地文件往往需要搭建本地服务器（采用其他hack方法除外），参考代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="keyword">require</span>(<span class="string">'http'</span>),</div><div class="line">    express = <span class="keyword">require</span>(<span class="string">'express'</span>),</div><div class="line">    app = express();</div><div class="line"></div><div class="line">app.<span class="keyword">use</span>(<span class="string">'/'</span>, express.<span class="keyword">static</span>(__dirname));</div><div class="line"></div><div class="line">http.createServer(app).listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">    console.log(<span class="string">'Server is running...'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注意：该示例需要实现安装express包，在终端进入项目所在目录后，输入指令<strong>npm install express</strong>即可安装。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nodejs</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/02/27/nodejs-reminder/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/02/25/regexp-primary/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">正则表达式入门</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -250,9 +324,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

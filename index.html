@@ -172,6 +172,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-nodejs-reminder" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/27/nodejs-reminder/">nodejs查漏补缺</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/27/nodejs-reminder/" class="archive-article-date">
+  	<time datetime="2017-02-27T12:41:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Node-js逐行读取写入文件内容"><a href="#Node-js逐行读取写入文件内容" class="headerlink" title="Node.js逐行读取写入文件内容"></a>Node.js逐行读取写入文件内容</h2><p>主要通过原生的<strong>readline</strong>API实现逐行读入。示例如下：</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> readline = <span class="keyword">require</span>(<span class="string">'readline'</span>);</div><div class="line"><span class="built_in">var</span> fs = <span class="keyword">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="built_in">var</span> os = <span class="keyword">require</span>(<span class="string">'os'</span>);</div><div class="line"></div><div class="line"><span class="built_in">var</span> fReadName = <span class="string">'./1.log'</span>;</div><div class="line"><span class="built_in">var</span> fWriteName = <span class="string">'./1.readline.log'</span>;</div><div class="line"><span class="built_in">var</span> fRead = fs.createReadStream(fReadName);</div><div class="line"><span class="built_in">var</span> fWrite = fs.createWriteStream(fWriteName);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> objReadline = readline.createInterface(&#123;</div><div class="line">	input: fRead,</div><div class="line"><span class="comment">// 这是另一种复制方式，这样on('line')里就不必再调用fWrite.write(line)，当只是纯粹复制文件时推荐使用</span></div><div class="line"><span class="comment">// 但文件末尾会多算一次index计数   sodino.com</span></div><div class="line"><span class="comment">//  output: fWrite, </span></div><div class="line"><span class="comment">//  terminal: true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> index = <span class="number">1</span>;</div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'line'</span>, (line)=&gt;&#123;</div><div class="line">	<span class="built_in">var</span> tmp = <span class="string">'line'</span> + index.toString() + <span class="string">':'</span> + line;</div><div class="line">	fWrite.write(tmp + os.EOL); <span class="comment">// 下一行</span></div><div class="line">	console.<span class="keyword">log</span>(index, line);</div><div class="line">	index ++;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'close'</span>, ()=&gt;&#123;</div><div class="line">	console.<span class="keyword">log</span>(<span class="string">'readline close...'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2017/02/27/nodejs-reminder/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nodejs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/02/27/nodejs-reminder/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-regexp-primary" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -409,6 +474,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">正则表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">nodejs</a>
               </li>
             
             <div class="clearfix"></div>
