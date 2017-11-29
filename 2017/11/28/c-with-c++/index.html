@@ -6,21 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>nodejs查漏补缺 | Pc&#39;s blog</title>
+  <title>c与c++的相互调用 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
-123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
+  <meta name="description" content="最近项目需要使用google test（以下简称为gtest）作为单元测试框架，但是项目本身过于庞大，main函数无从找起，需要将gtest框架编译成静态库使用。因为项目本身是通过纯c语言编写，而gtest则是一个c++编写的测试框架，其中必然涉及c与c++之间的相互调用。注意，本文的前提是，c代码采用gcc等c语言编译器编译c代码，采用g++等c++编译器编译c++代码，如果c和c++代">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nodejs查漏补缺">
-<meta property="og:url" content="http://yoursite.com/2017/02/27/nodejs-reminder/index.html">
+<meta property="og:title" content="c与c++的相互调用">
+<meta property="og:url" content="http://yoursite.com/2017/11/28/c-with-c++/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
-123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
-<meta property="og:updated_time" content="2017-02-27T12:56:52.000Z">
+<meta property="og:description" content="最近项目需要使用google test（以下简称为gtest）作为单元测试框架，但是项目本身过于庞大，main函数无从找起，需要将gtest框架编译成静态库使用。因为项目本身是通过纯c语言编写，而gtest则是一个c++编写的测试框架，其中必然涉及c与c++之间的相互调用。注意，本文的前提是，c代码采用gcc等c语言编译器编译c代码，采用g++等c++编译器编译c++代码，如果c和c++代">
+<meta property="og:updated_time" content="2017-11-29T16:13:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nodejs查漏补缺">
-<meta name="twitter:description" content="Node.js逐行读取写入文件内容主要通过原生的readlineAPI实现逐行读入。示例如下：
-123456789101112131415161718192021222324252627282930var readline = require(&apos;readline&apos;);var fs = require(&apos;fs&apos;);var os = require(&apos;os&apos;);var fReadName = &apos;./1">
+<meta name="twitter:title" content="c与c++的相互调用">
+<meta name="twitter:description" content="最近项目需要使用google test（以下简称为gtest）作为单元测试框架，但是项目本身过于庞大，main函数无从找起，需要将gtest框架编译成静态库使用。因为项目本身是通过纯c语言编写，而gtest则是一个c++编写的测试框架，其中必然涉及c与c++之间的相互调用。注意，本文的前提是，c代码采用gcc等c语言编译器编译c代码，采用g++等c++编译器编译c++代码，如果c和c++代">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -174,33 +171,43 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-nodejs-reminder" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-c-with-c++" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      nodejs查漏补缺
+      c与c++的相互调用
     </h1>
   
 
         
-        <a href="/2017/02/27/nodejs-reminder/" class="archive-article-date">
-  	<time datetime="2017-02-27T12:41:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-27</time>
+        <a href="/2017/11/28/c-with-c++/" class="archive-article-date">
+  	<time datetime="2017-11-28T15:16:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Node-js逐行读取写入文件内容"><a href="#Node-js逐行读取写入文件内容" class="headerlink" title="Node.js逐行读取写入文件内容"></a>Node.js逐行读取写入文件内容</h2><p>主要通过原生的<strong>readline</strong>API实现逐行读入。示例如下：</p>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> readline = <span class="keyword">require</span>(<span class="string">'readline'</span>);</div><div class="line"><span class="built_in">var</span> fs = <span class="keyword">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="built_in">var</span> os = <span class="keyword">require</span>(<span class="string">'os'</span>);</div><div class="line"></div><div class="line"><span class="built_in">var</span> fReadName = <span class="string">'./1.log'</span>;</div><div class="line"><span class="built_in">var</span> fWriteName = <span class="string">'./1.readline.log'</span>;</div><div class="line"><span class="built_in">var</span> fRead = fs.createReadStream(fReadName);</div><div class="line"><span class="built_in">var</span> fWrite = fs.createWriteStream(fWriteName);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> objReadline = readline.createInterface(&#123;</div><div class="line">	input: fRead,</div><div class="line"><span class="comment">// 这是另一种复制方式，这样on('line')里就不必再调用fWrite.write(line)，当只是纯粹复制文件时推荐使用</span></div><div class="line"><span class="comment">// 但文件末尾会多算一次index计数   sodino.com</span></div><div class="line"><span class="comment">//  output: fWrite, </span></div><div class="line"><span class="comment">//  terminal: true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">var</span> index = <span class="number">1</span>;</div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'line'</span>, (line)=&gt;&#123;</div><div class="line">	<span class="built_in">var</span> tmp = <span class="string">'line'</span> + index.toString() + <span class="string">':'</span> + line;</div><div class="line">	fWrite.write(tmp + os.EOL); <span class="comment">// 下一行</span></div><div class="line">	console.<span class="keyword">log</span>(index, line);</div><div class="line">	index ++;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">objReadline.<span class="keyword">on</span>(<span class="string">'close'</span>, ()=&gt;&#123;</div><div class="line">	console.<span class="keyword">log</span>(<span class="string">'readline close...'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="dirname和-在Node-js中的区别"><a href="#dirname和-在Node-js中的区别" class="headerlink" title="__dirname和./在Node.js中的区别"></a>__dirname和./在Node.js中的区别</h2><p>在完成任务过程中突然想到这样一个问题，于是便探究了一番。<a href="http://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js" target="_blank" rel="external">Stack Overflow</a>里面的答案解释得很好。<br>主要区别在于：__dirname是运行代码所在的目录，而.则代表你在终端运行node指令所在的目录。有个例外是，当你使用.在require()方法中，.代表含有require()方法的文件的所在目录。详细例子见上文链接。</p>
-<h2 id="Node-js作为静态服务器"><a href="#Node-js作为静态服务器" class="headerlink" title="Node.js作为静态服务器"></a>Node.js作为静态服务器</h2><p>最近几次任务需要从本地读取json文件，由于浏览器的跨域限制，读取本地文件往往需要搭建本地服务器（采用其他hack方法除外），参考代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="keyword">require</span>(<span class="string">'http'</span>),</div><div class="line">    express = <span class="keyword">require</span>(<span class="string">'express'</span>),</div><div class="line">    app = express();</div><div class="line"></div><div class="line">app.<span class="keyword">use</span>(<span class="string">'/'</span>, express.<span class="keyword">static</span>(__dirname));</div><div class="line"></div><div class="line">http.createServer(app).listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</div><div class="line">    console.log(<span class="string">'Server is running...'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>注意：该示例需要实现安装express包，在终端进入项目所在目录后，输入指令<strong>npm install express</strong>即可安装。</p>
+        <p>最近项目需要使用google test（以下简称为gtest）作为单元测试框架，但是项目本身过于庞大，main函数无从找起，需要将gtest框架编译成静态库使用。因为项目本身是通过纯c语言编写，而gtest则是一个c++编写的测试框架，其中必然涉及c与c++之间的相互调用。注意，本文的前提是，c代码采用gcc等c语言编译器编译c代码，采用g++等c++编译器编译c++代码，如果c和c++代码统一使用g++编译，大部分情况是可以实现两者代码相互调用的。以下为踩坑过程的总结o_O||。<br><a id="more"></a></p>
+<h2 id="c与c-的函数区别"><a href="#c与c-的函数区别" class="headerlink" title="c与c++的函数区别"></a>c与c++的函数区别</h2><p>要了解两者之间如何实现相互调用，必须先了解c与c++之间的函数有什么不同。</p>
+<p>c++作为c语言的升级版，两者必然有很多不同之处。其中有一个重大不同点就是，c++支持函数重载，而c语言不支持。为了使函数支持重载，c++在c语言的基础上，将函数名添加上返回值和参数的类型信息。例如，<code>int add(int, int)</code>这个函数，通过c++编译器编译后，可能呈现的函数名为<code>int int_add_int_int(int, int)</code>（注：此处为大概地说明c++是如何将返回值和参数信息添加到函数名中的，实际中编译器不一定是这样实现的）。</p>
+<p>从以上说明可以得出，由于c++对函数重载的支持，使得编译后的函数符号与c语言的不一致，即使是在两者函数名相同的前提下。</p>
+<h2 id="extern-“C”的作用"><a href="#extern-“C”的作用" class="headerlink" title="extern “C”的作用"></a>extern “C”的作用</h2><p>那么，c与c++是不能相互调用了吗？答案是否定的，因为存在着<code>extern &quot;C&quot;</code>这个关键字可以使语句可以按照类C的编译和连接规约来编译和连接，而不是C++的编译的连接规约。这样在类C的代码中就可以调用C++的函数or变量等。</p>
+<p>注意：<code>extern &quot;C&quot;</code>指令中的”C”，表示的一种编译和连接规约，而不是一种语言。”C”表示符合C语言的编译和连接规约的任何语言，如Fortran、assembler等。</p>
+<p>还有要说明的是，<code>extern &quot;C&quot;</code>指令仅指定编译和连接规约，但不影响语义。例如在函数声明中，指定了<code>extern &quot;C&quot;</code>，仍然要遵守C++的类型检测、参数转换规则。</p>
+<h2 id="c-中调用c代码"><a href="#c-中调用c代码" class="headerlink" title="c++中调用c代码"></a>c++中调用c代码</h2><p>对于c++，由于c++的编译器对c语言兼容，因此在c++中调用c语言编写的函数，只需要在函数声明前面加上关键字<code>extern &quot;C&quot;</code>，表示采用类c语言的方式解析函数符号。例子如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// add.h</span></div><div class="line"></div><div class="line">ifdef __ADD_H__</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __ADD_H__</span></div><div class="line"></div><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// add.c</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// main.cc</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"1 + 1 = "</span> &lt;&lt; add(<span class="number">1</span>, <span class="number">1</span>) &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在例子中，main.cc为c++代码，add.c为c语言代码，当c++编译器识别到`extern “C”``关键字时，会去寻找<em>add</em>函数的实现而不是寻找类似<em>int_add_int_int</em>这样带参数信息的函数实现。</p>
+<h2 id="c语言调用c-代码"><a href="#c语言调用c-代码" class="headerlink" title="c语言调用c++代码"></a>c语言调用c++代码</h2><p>c语言调用c++代码却并不容易，原因是c语言并不兼容c++。就算c语言可以调用c++，也会因为无法识别c++新定义的符号而编译报错。因此，为了实现c语言调用c++函数，必须实现以下两个步骤：1. 将c++相关函数封装为静态库或动态库（因为调用库函数时编译器并不知道里面执行的是什么语言）；2. 对外提供遵循类c语言规约的接口函数。例子如下所示：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// printNum.h</span></div><div class="line"></div><div class="line">ifdef __PRINTNUM_H__</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __PRINTNUM_H__</span></div><div class="line"></div><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">printNum</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// printNum.cc</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"printNum.h"</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printNum</span><span class="params">(<span class="keyword">int</span> a)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; &lt;&lt; <span class="string">"num is "</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// main.c</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">printNum</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</div><div class="line"></div><div class="line">printNum(<span class="number">5</span>);</div></pre></td></tr></table></figure></p>
+<p>通过将<em>cout</em>函数封装为类c语言规约的接口函数，使得main.c中可以成功调用c++函数<em>printNum</em>。值得注意的是，main.c不可以直接引入printNum.h，因为c语言不能识别<code>extern &quot;C&quot;</code>关键字。可以利用c++预定义宏实现头文件的改写：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">ifdef __PRINTNUM_H__</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __PRINTNUM_H__</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123; </div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printNum</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></div><div class="line">&#125;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>小结如下：</p>
+<ol>
+<li>c语言与c++的相互调用可以通过<code>extern &quot;C&quot;</code>关键字实现</li>
+<li>c++中调用c代码，只须在c++中为c代码函数声明之前加上<code>extern &quot;C&quot;</code></li>
+<li>c语言调用c++代码，则需要将c++代码编译成静态库或动态库，然后对外提供用<code>extern &quot;C&quot;</code>声明的类c封装函数</li>
+</ol>
 
       
 
@@ -214,7 +221,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">nodejs</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
         		</li>
       		
 		</ul>
@@ -270,7 +281,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/02/27/nodejs-reminder/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/28/c-with-c++/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -284,18 +295,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/04/17/unity2dReminder/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          unity2d学习过程记录
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/25/regexp-primary/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">正则表达式入门</div>
+    <a href="/2017/04/17/unity2dReminder/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">unity2d学习过程记录</div>
       <i class="icon-circle-right"></i>
     </a>
   
