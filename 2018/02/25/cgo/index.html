@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 正则表达式 | Pc&#39;s blog</title>
+  <title>go语言与c语言的相互调用 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Where Pc records his life">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pc's blog">
-<meta property="og:url" content="http://yoursite.com/tags/正则表达式/index.html">
+  <meta name="description" content="最近由于工作原因，需要实现go语言与c语言的相互调用。由于go语言与c语言有着千丝万缕的暧昧关系，两者之间的调用可以通过语言层面实现。下文是对此的总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言与c语言的相互调用">
+<meta property="og:url" content="http://yoursite.com/2018/02/25/cgo/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="Where Pc records his life">
+<meta property="og:description" content="最近由于工作原因，需要实现go语言与c语言的相互调用。由于go语言与c语言有着千丝万缕的暧昧关系，两者之间的调用可以通过语言层面实现。下文是对此的总结。">
+<meta property="og:updated_time" content="2018-02-25T15:28:50.201Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pc's blog">
-<meta name="twitter:description" content="Where Pc records his life">
+<meta name="twitter:title" content="go语言与c语言的相互调用">
+<meta name="twitter:description" content="最近由于工作原因，需要实现go语言与c语言的相互调用。由于go语言与c语言有着千丝万缕的暧昧关系，两者之间的调用可以通过语言层面实现。下文是对此的总结。">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -170,64 +171,155 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-cgo" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/25/regexp-primary/" class="archive-article-date">
-  	<time datetime="2017-02-25T01:51:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/25/regexp-primary/">正则表达式入门</a>
+    <h1 class="article-title" itemprop="name">
+      go语言与c语言的相互调用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/02/25/cgo/" class="archive-article-date">
+  	<time datetime="2018-02-25T14:33:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近由于工作原因，需要实现go语言与c语言的相互调用。由于go语言与c语言有着千丝万缕的暧昧关系，两者之间的调用可以通过语言层面实现。下文是对此的总结。<br><a id="more"></a></p>
+<h2 id="go语言调用c语言"><a href="#go语言调用c语言" class="headerlink" title="go语言调用c语言"></a>go语言调用c语言</h2><p>以下为一个简短的例子：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// #include &lt;stdio.h&gt;</span></div><div class="line"><span class="comment">// #include &lt;stdlib.h&gt;</span></div><div class="line"><span class="comment">/*</span></div><div class="line">void print(char *str) &#123;</div><div class="line">    printf("%s\n", str);</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s := <span class="string">"Hello Cgo"</span></div><div class="line">    cs := C.CString(s)</div><div class="line">    C.<span class="built_in">print</span>(cs)</div><div class="line">    C.free(unsafe.pointer(cs))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>与“正常”的go代码相比，上述代码有几处“特殊”的地方：</p>
+<ol>
+<li>在开头的注释中出现了c语言头文件的include字样</li>
+<li>在注释中定义了c语言函数print</li>
+<li>import了一个名为C的“包”</li>
+<li>在main函数中调用了上述定义的c语言函数print</li>
+</ol>
+<p>首先，go源码文件中的c语言代码是需要用注释包裹的，就像上面的include头文件以及print函数定义；其次，import “C”这个语句是必须的，而且其与上面的c代码之间不能用空行分隔，必须紧密相连。这里的”C“不是包名，而是一种类似名字空间的概念，或可以理解为伪包，c语言所有语法元素均在该伪包下面；最后，访问c语法元素时都要在其前面加上伪包前缀，比如C.uint和上面代码中的C.print、C.free等。</p>
+<p>更详细的在go中调用c语言的用法可以参考<a href="https://tonybai.com/2012/09/26/interoperability-between-go-and-c/" target="_blank" rel="external">Go与C语言的互操作</a>，本文不再一一细述。</p>
+<p>在上面的例子中，c语言是内嵌在go代码中的，如果代码量更大更复杂的话，这显然是很不”专业“的。那么，是否可以将c语言代码从go代码中分离出去，单独定义呢？答案是肯定的，可以通过共享库的方式实现。</p>
+<p>cgo提供了<code>#cgo</code>指示符可以指定go源码在编译后与哪些共享库进行链接。例子如下：</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// hello.go</div><div class="line">package main</div><div class="line"></div><div class="line">// <span class="meta">#cgo LDFLAGS: -L ./ -lhello</span></div><div class="line">// <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line">// <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line">// <span class="meta">#<span class="meta-keyword">include</span> <span class="string">"hello.h"</span></span></div><div class="line">import <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span> &#123;</span></div><div class="line">    C.hello()</div><div class="line">&#125;</div><div class="line"></div><div class="line">// hello.c</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"hello.h"</span></span></div><div class="line"></div><div class="line">void hello()</div><div class="line">&#123;</div><div class="line">    printf(<span class="string">"hello, go\n"</span>)<span class="comment">;</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">// hello.h</div><div class="line">extern void hello()<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>其中在hello.go中，<code>#cgo</code>指示符后面添加<code>LDFLAGS: -L ./ -lhello</code>，作用是在go代码编译时，指定在当前目录查找so库并进行链接。</p>
+<p>因此，只需要把hello.c编译成动态库，再编译go代码，即可在运行go代码的时候调用共享库中的c语言函数。指令如下：</p>
+<ol>
+<li><code>gcc -fPIC -o libhello.so hello.c</code></li>
+<li><code>go build -o hello</code></li>
+<li><code>./hello</code></li>
+</ol>
+<h2 id="c语言调用go语言"><a href="#c语言调用go语言" class="headerlink" title="c语言调用go语言"></a>c语言调用go语言</h2><p>与在go中调用c源码相比，在c中使用go函数的场合较少。因为一般来说，采用高级语言作为粘合剂调用低级语言能充分发挥各自的特点，而用低级语言调用高级语言反而有可能降低低级语言的性能优势，在go中，可以使用”export + 函数名“来导出go函数为c代码所用，看一个简单的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// hello.go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">// export Go2C</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Go2C</span><span class="params">()</span></span> &#123;</div><div class="line">    fmt.Println(<span class="string">"hello, C"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可通过<code>go build</code>的编译选项，将go代码编译成共享库以供c代码调用。注意，编译so库时必须存在main及main函数（即使main函数为空）。编译指令如下：<code>go build -v -x -buildmode=c-shared -o libhello.so hello.go</code>。</p>
+<p>编译成功后，只需在c代码中引入新生成的头文件及编译时链接动态库即可实现go函数的调用。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// hello.c</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"libhello.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    Go2C();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>gcc -o hello -L. -lhello</code>，即可编译成可执行程序。注意，运行前必须确定共享库运行时查找路径中存在需要链接的共享库，可通过将so库路径放到/usr/lib或者修改环境变量LD_LIBRARY_PATH。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>go语言可以通过内嵌c代码的形式调用c语言，也可以通过调用共享库函数的方式实现；至于c语言调用go函数，则可以通过<code>go build</code>将go代码编译成共享库提供给c代码使用。注意，本文中的共享库均为动态共享库，至于静态共享库则未曾实验，有兴趣的可以实现一下。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cgo</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/02/25/cgo/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/11/28/c-with-c++/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">c与c++的相互调用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -250,9 +342,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
