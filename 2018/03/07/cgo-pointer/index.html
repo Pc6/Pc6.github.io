@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>正则表达式入门 | Pc&#39;s blog</title>
+  <title>cgo的指针传递 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)">
+  <meta name="description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="正则表达式入门">
-<meta property="og:url" content="http://yoursite.com/2017/02/25/regexp-primary/index.html">
+<meta property="og:title" content="cgo的指针传递">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/cgo-pointer/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)">
-<meta property="og:updated_time" content="2017-11-29T16:08:29.000Z">
+<meta property="og:description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
+<meta property="og:updated_time" content="2018-03-07T15:04:40.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="正则表达式入门">
-<meta name="twitter:description" content="一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)">
+<meta name="twitter:title" content="cgo的指针传递">
+<meta name="twitter:description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -171,53 +171,50 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-regexp-primary" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-cgo-pointer" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      正则表达式入门
+      cgo的指针传递
     </h1>
   
 
         
-        <a href="/2017/02/25/regexp-primary/" class="archive-article-date">
-  	<time datetime="2017-02-25T01:51:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
+        <a href="/2018/03/07/cgo-pointer/" class="archive-article-date">
+  	<time datetime="2018-03-07T12:34:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一路以来遇到正则表达式的地方都是直接去百度的，因为感觉大部分遇到的正则表达式的地方都是很常见的。这次顺便总结下正则表达式比较难记的部分，方便自己日后查阅吧(￣.￣)<br><a id="more"></a></p>
-<h2 id="正则表达式中的特殊字符"><a href="#正则表达式中的特殊字符" class="headerlink" title="正则表达式中的特殊字符"></a>正则表达式中的特殊字符</h2><p>感觉<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="external">MDN</a>里面的资料还是挺不错的，特此记录下里面提到过的个人感觉比较难记的部分。</p>
-<ol>
-<li><strong>?</strong>：匹配前面一个表达式0次或者1次。等价于 {0,1}。此外，<strong>?</strong>还有一个比较重要的用途，即<blockquote>
-<p>如果?紧跟在任何量词 *、 +、? 或 {} 的后面，将会使量词变为非贪婪的（匹配尽量少的字符），和缺省使用的贪婪模式（匹配尽可能多的字符）正好相反。例如，对 “123abc” 应用 /d+/ 将会返回 “123”，如果使用 /d+?/,那么就只会匹配到 “1”。<br>还可以运用于向前断言，如 x(?=y) 和 x(?!y) 。</p>
+        <p>在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。<br><a id="more"></a></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在官方文档和本篇总结中，<strong>Go指针</strong>指的是指向Go分配的内存的指针（例如使用<code>&amp;</code>运算符或者调用<code>new</code>函数获取的指针）。而<strong>C指针</strong>指的是C分配的内存的指针（例如调用<code>malloc</code>函数获取的指针）。一个指针是<strong>Go指针</strong>还是<strong>C指针</strong>，是根据内存如何分配判断的，与指针的类型无关。</p>
+<h2 id="Go调用C"><a href="#Go调用C" class="headerlink" title="Go调用C"></a>Go调用C</h2><h3 id="传递指向Go-Memory的指针"><a href="#传递指向Go-Memory的指针" class="headerlink" title="传递指向Go Memory的指针"></a>传递指向Go Memory的指针</h3><blockquote>
+<p>Go调用C Code时，Go传递给C Code的Go指针所指的Go Memory中不能包含任何指向Go Memory的Pointer。</p>
 </blockquote>
-</li>
-<li><strong>(x)</strong>：捕获括号。匹配 ‘x’ 并且记住匹配项。在匹配中可以使用1、2、n表示括号中的内容，而在替换中，则使用$1、$2、$n。</li>
-<li><strong>(:x)</strong>: 非捕获括号。匹配 ‘x’ 但是不记住匹配项。</li>
-<li><strong>x(?=y)</strong>：匹配’x’仅仅当’x’后面跟着’y’.这种叫做正向肯定查找。例如，/Jack(?=Sprat)/会匹配到’Jack’仅仅当它后面跟着’Sprat’。/Jack(?=Sprat|Frost)/匹配‘Jack’仅仅当它后面跟着’Sprat’或者是‘Frost’。但是‘Sprat’和‘Frost’都不是匹配结果的一部分。</li>
-<li><strong>x(!=y)</strong>：匹配’x’仅仅当’x’后面不跟着’y’,这个叫做正向否定查找。例如，/d+(?!.)/匹配一个数字仅仅当这个数字后面没有跟小数点的时候。正则表达式/d+(?!.)/.exec(“3.141”)匹配‘141’但是不是‘3.141’</li>
-</ol>
-<h2 id="使用正则表达式的js方法"><a href="#使用正则表达式的js方法" class="headerlink" title="使用正则表达式的js方法"></a>使用正则表达式的js方法</h2><p>js提供了不少使用正则表达式的方法。如RegExp的exec，和String的match、replace、search和split方法。</p>
-<p>当你想要知道在一个字符串中的一个匹配是否被找到，你可以使用test或search方法；想得到更多的信息（但是比较慢）则可以使用exec或match方法。如果你使用exec或match方法并且匹配成功了，那么这些方法将返回一个数组并且更新相关的正则表达式对象的属性和预定义的正则表达式对象（详见下）。如果匹配失败，那么exec方法返回null（也就是false）。</p>
-<h2 id="match与exec区别"><a href="#match与exec区别" class="headerlink" title="match与exec区别"></a>match与exec区别</h2><p>从前往往傻傻分不清match和exec的区别，因为两者的作用都是匹配字符串，返回数组，但是在不同情况下两者所返回的内容是不同的。</p>
-<ul>
-<li><strong>当正则表达式包含子表达式且不包含全局标志g时，二者返回相同的数组。</strong></li>
-</ul>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 示例：</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'cat10,bat20,kat30'</span>;</div><div class="line"><span class="keyword">var</span> patten = /w(at)d+/;</div><div class="line"><span class="keyword">var</span> arr = str.match(patten);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = patten.exec(str);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div></pre></td></tr></table></figure>
-<ul>
-<li><strong>当正则表达式带有全局标志g时，二者表现不一致。</strong><br>match会返回所有符合条件的匹配项，并以数组形式返回。数组第一项存放第一个匹配项，数组第二项存放第二个匹配项…依次类推。<br>exec则永远返回第一个匹配项。但是当连续调用exec时，则每次的返回值都是下一个匹配项。</li>
-</ul>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">//</span> 示例<span class="number">1</span>：</div><div class="line"></div><div class="line">var str = <span class="string">'cat,bat,kat'</span>;</div><div class="line">var patten = <span class="regexp">/at/g</span>;</div><div class="line">str.match(patten);  <span class="regexp">//</span>[<span class="string">'at'</span>, <span class="string">'at'</span>, <span class="string">'at'</span>]</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'at'</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="regexp">//</span> 示例<span class="number">2</span>：</div><div class="line"></div><div class="line">var str = <span class="string">'cat,bat,kat'</span>;</div><div class="line">var patten = <span class="regexp">/w+/g</span>;</div><div class="line">str.match(patten);  <span class="regexp">//</span>[<span class="string">'cat'</span>, <span class="string">'bat'</span>, <span class="string">'kat'</span>]</div><div class="line"></div><div class="line"><span class="regexp">//</span>第一次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'cat'</span>]</div><div class="line"><span class="regexp">//</span>第二次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'bat'</span>]</div><div class="line"><span class="regexp">//</span>第三次调用</div><div class="line">patten.exec(str);  <span class="regexp">//</span>[<span class="string">'kat'</span>]</div></pre></td></tr></table></figure>
-<ul>
-<li><strong>当正则表达式包含子表达式时且包含全局标志g时，二者表现不一致。</strong><br>match会返回所有符合条件的匹配项，并以数组形式返回。这时，match不会再返回子表达式的匹配项了。数组第一项存放第一个匹配项，数组第二项存放第二个匹配项…依次类推。<br>exec会返回子表达式的匹配项。换句话说就是，数组第一项存放整个匹配项，数组第二项存放第一个子表达式匹配项，数组第三项存放第二个子表达式匹配项…依次类推。</li>
-</ul>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 示例：</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> str = <span class="string">'cat10,bat20,kat30'</span>;</div><div class="line"><span class="keyword">var</span> patten = /w(at)d+/g;</div><div class="line"><span class="keyword">var</span> arr = str.match(patten);  <span class="comment">//['cat10', 'bat20', 'kat30']</span></div><div class="line"><span class="keyword">var</span> arr = patten.exec(str);</div><div class="line">arr[<span class="number">0</span>] &lt;=&gt; [<span class="string">'cat10'</span>]</div><div class="line">arr[<span class="number">1</span>] &lt;=&gt; [<span class="string">'at'</span>]</div></pre></td></tr></table></figure>
+<p>值得注意的是，Go是可以传递给C Code的Go指针的，但是这个指针里面不能包含任何指向Go Memory的Pointer。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo &#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(struct Foo *f) &#123;</div><div class="line">    (f-&gt;a)++;</div><div class="line">    *(f-&gt;p)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>)))</div><div class="line">    <span class="comment">// f.p = &amp;f.a</span></div><div class="line"></div><div class="line">    C.plusOne(f)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"></div><div class="line">在以上代码可以看出，Go Code向C Code传递了一个指向Go Memory（Go分配的）指针f，但f指向的Go Memory中有一个指针p指向了另一处Go Memory:`<span class="built_in">new</span>(<span class="keyword">int</span>)<span class="string">`。当使用`</span><span class="keyword">go</span> build<span class="string">`编译这个文件时，是可以通过编译的，然后在运行时会发生如下报错：`</span><span class="built_in">panic</span> runtime error: cgo argument has Go pointer to Go pointer<span class="string">`</span></div><div class="line"></div><div class="line">### 传递指向struc field的指针</div><div class="line"></div><div class="line">&gt; Go调用C Code时，如果传递的是一个指向struct field的指针，那么“Go Memory”专指这个field所占用的内存，即便struct中有其他field指向其他Go Memory也没关系。</div><div class="line"></div><div class="line">将上面例子改为只传入指向struct field的指针。如下：</div><div class="line"></div><div class="line">`<span class="string">``</span><span class="keyword">go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo &#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(int *i) &#123;</div><div class="line">    (*i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>))</div><div class="line"></div><div class="line">    C.plusOne(&amp;f.a)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>直接指向<code>go run</code>，打印结果为<code>6</code>。可以看出，因为这次调用只传递单个field指针，指向这个field所占用的内存，而这个field也没有嵌套其他指向Go Memory的指针，因此这是符合规范的调用，不会触发<strong>panic</strong>。</p>
+<h3 id="传递指向slice或array中的element指针"><a href="#传递指向slice或array中的element指针" class="headerlink" title="传递指向slice或array中的element指针"></a>传递指向slice或array中的element指针</h3><p>和传递struct field不同，传递一个指向slice或者array中的element指针时，需要考虑的Go Memory的范围不仅仅是这个element，而是整个array或这个slice背后的underlying array所占用的内存区域，要保证整个区域内不包含任何指向Go Memory的指针。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void plusOne(int **i) &#123;</div><div class="line">    (**i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s1 := <span class="built_in">make</span>([]*<span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    <span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">5</span></div><div class="line">    s1[<span class="number">1</span>] = &amp;a</div><div class="line">    C.plusOne((**C.<span class="keyword">int</span>)((unsafe.Pointer)(&amp;s1[<span class="number">0</span>])))</div><div class="line">    fmt.Println(s1[<span class="number">0</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从以上代码可以看出，传递给C的是slice第一个element的地址，并不包括指向Go Memory的指针，但由于第二个element保存了另外一块Go Memory的地址（&amp;a），当运行<code>go run</code>时，获得报错：<code>panic runtime error: cgo argument has Go pointer to Go pointer</code>。</p>
+<h2 id="C调用Go"><a href="#C调用Go" class="headerlink" title="C调用Go"></a>C调用Go</h2><h3 id="返回指向Go分配的内存的指针"><a href="#返回指向Go分配的内存的指针" class="headerlink" title="返回指向Go分配的内存的指针"></a>返回指向Go分配的内存的指针</h3><blockquote>
+<p>C调用的Go函数不能返回指向Go分配的内存的指针。</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// extern int* goAdd(int, int);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// int cAdd(int a, int b) &#123;</span></div><div class="line"><span class="comment">//  int *i = goAdd(a, b);</span></div><div class="line"><span class="comment">//  return *i;</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">// export goAdd</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goAdd</span><span class="params">(a, b C.<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    c := a + b</div><div class="line">    <span class="keyword">return</span> &amp;c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">5</span>, <span class="number">6</span></div><div class="line">    i := C.cAdd(C.<span class="keyword">int</span>(a), C.<span class="keyword">int</span>(b))</div><div class="line">    fmt.Println(<span class="keyword">int</span>(i))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，goAdd这个Go函数返回了一个指向Go分配的内存（&amp;c）的指针。运行上述代码，结果如下：<code>panic runtime error: cgo result has Go pointer</code>。</p>
+<h3 id="在C分配的内存中存储指向Go分配的内存的指针"><a href="#在C分配的内存中存储指向Go分配的内存的指针" class="headerlink" title="在C分配的内存中存储指向Go分配的内存的指针"></a>在C分配的内存中存储指向Go分配的内存的指针</h3><blockquote>
+<p>Go Code不能在C分配的内存中存储指向Go分配的内存的指针。</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// #include &lt;stdlib.h&gt;</span></div><div class="line"><span class="comment">// extern void goFoo(int**);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// void cFoo() &#123;</span></div><div class="line"><span class="comment">//  int **p = malloc(sizeof(int*));</span></div><div class="line"><span class="comment">//  goFoo(p);</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="comment">//export goFoo</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goFoo</span><span class="params">(p **C.<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    *p = <span class="built_in">new</span>(C.<span class="keyword">int</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    C.cFoo()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>针对此例，默认的GODEBUG=cgocheck=1是正常运行的，将GODEBUG=cgocheck=2则会发生报错：<code>fatal error: Go pointer stored into non-Go memory</code>。</p>
+<h2 id="检测控制"><a href="#检测控制" class="headerlink" title="检测控制"></a>检测控制</h2><p>以上规则会在运行时动态检测，可以通过设置<strong>GODEBUG</strong>环境变量修改检测程度，默认值是<strong>GODEBUG=cgocheck=1</strong>，可以通过设置为0取消这些检测，也可以通过设置为2来提高检测标准，但这会牺牲运行的效率。</p>
+<p>此外，也可以通过使用<code>unsafe</code>包来逃脱这些限制，而且C语言方面也没法使用什么特殊的机制来限制调用Go。尽管如此，如果程序打破了上面的限制，很可能会以一种无法预料的方式调用失败。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>cgo中，Go与C的内存应该保持着相对独立，指针之间的传递应该尽量避免嵌套不同内存的指针（如C中保存Go指针）。指针之间传递的规则不是绝对要遵守的，可以通过多种方式忽视检测，但是这往往导致无法预料的结果。</p>
 
       
 
@@ -231,11 +228,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">正则表达式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cgo</a>
         		</li>
       		
 		</ul>
@@ -291,7 +284,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/02/25/regexp-primary/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/07/cgo-pointer/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -305,18 +298,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/02/27/nodejs-reminder/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          nodejs查漏补缺
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/02/24/first-blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">第一篇记录</div>
+    <a href="/2018/02/25/cgo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">go语言与c语言的相互调用</div>
       <i class="icon-circle-right"></i>
     </a>
   
