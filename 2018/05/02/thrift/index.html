@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>cgo的指针传递 | Pc&#39;s blog</title>
+  <title>thrift源码阅读总结 | Pc&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
+  <meta name="description" content="由于工作需要使用thrift，并且需要根据需求修改thrift源码，因此必须熟悉thrift执行的流程。以下是thrift源码阅读的总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cgo的指针传递">
-<meta property="og:url" content="http://yoursite.com/2018/03/07/cgo-pointer/index.html">
+<meta property="og:title" content="thrift源码阅读总结">
+<meta property="og:url" content="http://yoursite.com/2018/05/02/thrift/index.html">
 <meta property="og:site_name" content="Pc's blog">
-<meta property="og:description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
-<meta property="og:updated_time" content="2018-03-07T15:04:40.252Z">
+<meta property="og:description" content="由于工作需要使用thrift，并且需要根据需求修改thrift源码，因此必须熟悉thrift执行的流程。以下是thrift源码阅读的总结。">
+<meta property="og:image" content="http://oltsm459v.bkt.clouddn.com/Apache_Thrift_architecture.png">
+<meta property="og:updated_time" content="2018-05-02T15:09:02.764Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cgo的指针传递">
-<meta name="twitter:description" content="在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。">
+<meta name="twitter:title" content="thrift源码阅读总结">
+<meta name="twitter:description" content="由于工作需要使用thrift，并且需要根据需求修改thrift源码，因此必须熟悉thrift执行的流程。以下是thrift源码阅读的总结。">
+<meta name="twitter:image" content="http://oltsm459v.bkt.clouddn.com/Apache_Thrift_architecture.png">
   
     <link rel="alternative" href="/atom.xml" title="Pc&#39;s blog" type="application/atom+xml">
   
@@ -171,50 +173,118 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-cgo-pointer" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-thrift" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      cgo的指针传递
+      thrift源码阅读总结
     </h1>
   
 
         
-        <a href="/2018/03/07/cgo-pointer/" class="archive-article-date">
-  	<time datetime="2018-03-07T12:34:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
+        <a href="/2018/05/02/thrift/" class="archive-article-date">
+  	<time datetime="2018-05-02T12:48:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在cgo的官方文档中有一小节特地介绍了cgo中传递c语言和go语言指针之间的传递，由于里面讲得比较抽象并且缺少例子，因此通过这篇文章总结cgo指针传递的注意事项。<br><a id="more"></a></p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在官方文档和本篇总结中，<strong>Go指针</strong>指的是指向Go分配的内存的指针（例如使用<code>&amp;</code>运算符或者调用<code>new</code>函数获取的指针）。而<strong>C指针</strong>指的是C分配的内存的指针（例如调用<code>malloc</code>函数获取的指针）。一个指针是<strong>Go指针</strong>还是<strong>C指针</strong>，是根据内存如何分配判断的，与指针的类型无关。</p>
-<h2 id="Go调用C"><a href="#Go调用C" class="headerlink" title="Go调用C"></a>Go调用C</h2><h3 id="传递指向Go-Memory的指针"><a href="#传递指向Go-Memory的指针" class="headerlink" title="传递指向Go Memory的指针"></a>传递指向Go Memory的指针</h3><blockquote>
-<p>Go调用C Code时，Go传递给C Code的Go指针所指的Go Memory中不能包含任何指向Go Memory的Pointer。</p>
-</blockquote>
-<p>值得注意的是，Go是可以传递给C Code的Go指针的，但是这个指针里面不能包含任何指向Go Memory的Pointer。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo &#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(struct Foo *f) &#123;</div><div class="line">    (f-&gt;a)++;</div><div class="line">    *(f-&gt;p)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"unsafe"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>)))</div><div class="line">    <span class="comment">// f.p = &amp;f.a</span></div><div class="line"></div><div class="line">    C.plusOne(f)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"></div><div class="line">在以上代码可以看出，Go Code向C Code传递了一个指向Go Memory（Go分配的）指针f，但f指向的Go Memory中有一个指针p指向了另一处Go Memory:`<span class="built_in">new</span>(<span class="keyword">int</span>)<span class="string">`。当使用`</span><span class="keyword">go</span> build<span class="string">`编译这个文件时，是可以通过编译的，然后在运行时会发生如下报错：`</span><span class="built_in">panic</span> runtime error: cgo argument has Go pointer to Go pointer<span class="string">`</span></div><div class="line"></div><div class="line">### 传递指向struc field的指针</div><div class="line"></div><div class="line">&gt; Go调用C Code时，如果传递的是一个指向struct field的指针，那么“Go Memory”专指这个field所占用的内存，即便struct中有其他field指向其他Go Memory也没关系。</div><div class="line"></div><div class="line">将上面例子改为只传入指向struct field的指针。如下：</div><div class="line"></div><div class="line">`<span class="string">``</span><span class="keyword">go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">struct Foo &#123;</div><div class="line">    int a;</div><div class="line">    int *p;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void plusOne(int *i) &#123;</div><div class="line">    (*i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    f := &amp;C.struct_Foo&#123;&#125;</div><div class="line">    f.a = <span class="number">5</span></div><div class="line">    f.p = (*C.<span class="keyword">int</span>)((unsafe.Pointer)(<span class="built_in">new</span>(<span class="keyword">int</span>))</div><div class="line"></div><div class="line">    C.plusOne(&amp;f.a)</div><div class="line">    fmt.Println(<span class="keyword">int</span>(f.a))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>直接指向<code>go run</code>，打印结果为<code>6</code>。可以看出，因为这次调用只传递单个field指针，指向这个field所占用的内存，而这个field也没有嵌套其他指向Go Memory的指针，因此这是符合规范的调用，不会触发<strong>panic</strong>。</p>
-<h3 id="传递指向slice或array中的element指针"><a href="#传递指向slice或array中的element指针" class="headerlink" title="传递指向slice或array中的element指针"></a>传递指向slice或array中的element指针</h3><p>和传递struct field不同，传递一个指向slice或者array中的element指针时，需要考虑的Go Memory的范围不仅仅是这个element，而是整个array或这个slice背后的underlying array所占用的内存区域，要保证整个区域内不包含任何指向Go Memory的指针。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">void plusOne(int **i) &#123;</div><div class="line">    (**i)++;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">    <span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s1 := <span class="built_in">make</span>([]*<span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    <span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">5</span></div><div class="line">    s1[<span class="number">1</span>] = &amp;a</div><div class="line">    C.plusOne((**C.<span class="keyword">int</span>)((unsafe.Pointer)(&amp;s1[<span class="number">0</span>])))</div><div class="line">    fmt.Println(s1[<span class="number">0</span>])</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从以上代码可以看出，传递给C的是slice第一个element的地址，并不包括指向Go Memory的指针，但由于第二个element保存了另外一块Go Memory的地址（&amp;a），当运行<code>go run</code>时，获得报错：<code>panic runtime error: cgo argument has Go pointer to Go pointer</code>。</p>
-<h2 id="C调用Go"><a href="#C调用Go" class="headerlink" title="C调用Go"></a>C调用Go</h2><h3 id="返回指向Go分配的内存的指针"><a href="#返回指向Go分配的内存的指针" class="headerlink" title="返回指向Go分配的内存的指针"></a>返回指向Go分配的内存的指针</h3><blockquote>
-<p>C调用的Go函数不能返回指向Go分配的内存的指针。</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// extern int* goAdd(int, int);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// int cAdd(int a, int b) &#123;</span></div><div class="line"><span class="comment">//  int *i = goAdd(a, b);</span></div><div class="line"><span class="comment">//  return *i;</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="comment">// export goAdd</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goAdd</span><span class="params">(a, b C.<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    c := a + b</div><div class="line">    <span class="keyword">return</span> &amp;c</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> a, b <span class="keyword">int</span> = <span class="number">5</span>, <span class="number">6</span></div><div class="line">    i := C.cAdd(C.<span class="keyword">int</span>(a), C.<span class="keyword">int</span>(b))</div><div class="line">    fmt.Println(<span class="keyword">int</span>(i))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码中，goAdd这个Go函数返回了一个指向Go分配的内存（&amp;c）的指针。运行上述代码，结果如下：<code>panic runtime error: cgo result has Go pointer</code>。</p>
-<h3 id="在C分配的内存中存储指向Go分配的内存的指针"><a href="#在C分配的内存中存储指向Go分配的内存的指针" class="headerlink" title="在C分配的内存中存储指向Go分配的内存的指针"></a>在C分配的内存中存储指向Go分配的内存的指针</h3><blockquote>
-<p>Go Code不能在C分配的内存中存储指向Go分配的内存的指针。</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="comment">// #include &lt;stdlib.h&gt;</span></div><div class="line"><span class="comment">// extern void goFoo(int**);</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// void cFoo() &#123;</span></div><div class="line"><span class="comment">//  int **p = malloc(sizeof(int*));</span></div><div class="line"><span class="comment">//  goFoo(p);</span></div><div class="line"><span class="comment">// &#125;</span></div><div class="line"><span class="keyword">import</span> <span class="string">"C"</span></div><div class="line"></div><div class="line"><span class="comment">//export goFoo</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">goFoo</span><span class="params">(p **C.<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    *p = <span class="built_in">new</span>(C.<span class="keyword">int</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    C.cFoo()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>针对此例，默认的GODEBUG=cgocheck=1是正常运行的，将GODEBUG=cgocheck=2则会发生报错：<code>fatal error: Go pointer stored into non-Go memory</code>。</p>
-<h2 id="检测控制"><a href="#检测控制" class="headerlink" title="检测控制"></a>检测控制</h2><p>以上规则会在运行时动态检测，可以通过设置<strong>GODEBUG</strong>环境变量修改检测程度，默认值是<strong>GODEBUG=cgocheck=1</strong>，可以通过设置为0取消这些检测，也可以通过设置为2来提高检测标准，但这会牺牲运行的效率。</p>
-<p>此外，也可以通过使用<code>unsafe</code>包来逃脱这些限制，而且C语言方面也没法使用什么特殊的机制来限制调用Go。尽管如此，如果程序打破了上面的限制，很可能会以一种无法预料的方式调用失败。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>cgo中，Go与C的内存应该保持着相对独立，指针之间的传递应该尽量避免嵌套不同内存的指针（如C中保存Go指针）。指针之间传递的规则不是绝对要遵守的，可以通过多种方式忽视检测，但是这往往导致无法预料的结果。</p>
+        <p>由于工作需要使用thrift，并且需要根据需求修改thrift源码，因此必须熟悉thrift执行的流程。以下是thrift源码阅读的总结。<br><a id="more"></a></p>
+<h2 id="thrift协议栈概述"><a href="#thrift协议栈概述" class="headerlink" title="thrift协议栈概述"></a>thrift协议栈概述</h2><p>thrift是一个rpc框架，开发者可以通过thrift自带的接口定义语言（IDL）来自动生成客户端和服务端的rpc代码。<br>thrift协议栈如下图所示：</p>
+<p><img src="http://oltsm459v.bkt.clouddn.com/Apache_Thrift_architecture.png" width="50%" height="50%" alt="thrift架构"></p>
+<p>在client和server的最顶层都是用户自定义的处理逻辑，也就是说用户只需要编写用户逻辑，就可以完成整套的rpc调用流程。用户逻辑的下一层是thrift自动生成的代码，这些代码主要用于结构化数据的解析、发送和接收，同时服务端的自动生成代码中还包含了rpc请求的转发（client的A调用转发到server A函数进行处理）。</p>
+<p>从上面可以看出thrift的模块是分层设计的，在每一个层次可以根据业务的实际需要选择合适的实现方式。</p>
+<p>thrift主要分为以下几种层次模块：</p>
+<ul>
+<li><p>底层io模块，负责实际的数据传输，包括socket、文件或压缩数据流等。</p>
+</li>
+<li><p>transport层负责以字节流方式发送和接收消息，是底层io模块在thrift框架中的实现，每一个底层io模块都会有一个对于TTransport来负责thrift的字节流（byte stream）数据在该io模块上的传输。例如，TSocket对应socket传输，TFileTransport对应文件传输。</p>
+</li>
+<li><p>TProtocol主要负责结构化数据组装成消息，或者从消息结构中读出结构化数据。TProtocol将一个有类型的数据转化为特定类型的数据。如int32会被TBinaryProtocol编码为一个4字节数据，或TBinaryProtocol从TTransport中取出4个字节数据解码为int32。</p>
+</li>
+<li><p>TServer负责接收client请求，并将请求转发到processor进行处理。TServer主要任务是高效地接受client的请求，特别是高并发请求的情况下快速完成请求。</p>
+</li>
+<li><p>processor负责对client的请求进行响应，包括rpc请求转发，调用参数解析和用户逻辑调用，返回值写回等处理步骤。processor是服务端从thrift框架转入用户逻辑的关键流程。processor同时也负责向消息结构中写入数据或读出数据。</p>
+</li>
+</ul>
+<h2 id="TServer"><a href="#TServer" class="headerlink" title="TServer"></a>TServer</h2><p>thrift核心库提供了一个TServer抽象类。</p>
+<p>TServer在thrift框架中的主要任务是接收client请求，并转发到某个processor上进行请求处理。针对不同的访问规模，thrift提供了不同TServer模型。thrift目前支持的server模型包括：</p>
+<ul>
+<li>TSimpleServer：使用阻塞io的单线程服务器，主要用于调试。</li>
+<li><p>TThreadedServer：使用阻塞io的多线程服务器，每一个请求都在一个线程中处理，并发访问情况下会有很多线程同时运行。</p>
+</li>
+<li><p>TThreadPoolServer：使用阻塞io的多线程服务器，使用线程池管理处理线程。</p>
+</li>
+<li><p>TNonBlockingServer：使用非阻塞io的多线程服务器，使用少量线程既可以完成大并发量的请求响应，必须使用TFramedTransport。</p>
+</li>
+</ul>
+<p>TServer对象通常如下工作：</p>
+<ol>
+<li><p>使用TServerTransport获得一个TTransport。</p>
+</li>
+<li><p>使用TTransportFactory，可选地将原始传输转换为一个合适的应用传输。</p>
+</li>
+<li><p>调用TProtocolFactory，为TTransport创建一个输入和输出。</p>
+</li>
+<li><p>调用TProcessor对象的process方法。</p>
+</li>
+</ol>
+<h2 id="TTransport"><a href="#TTransport" class="headerlink" title="TTransport"></a>TTransport</h2><p>TTransport是与底层数据传输紧密相关的传输层。每一种支持的底层传输方式都存在一个与之对应的TTransport。在这一层，数据是按字节流处理的，即传输层看到的是一个又一个的字节，并把这些字节按顺序发送和接收。TTransport并不了解它所传输的数据是什么类型，实际上传输层也不关心数据是什么类型，只需要按照字节方式对数据进行发送和接收即可。数据类型的解析在TProtocol这一层完成。</p>
+<p>TTransport具体的有以下几个类：</p>
+<ul>
+<li><p>TSocket：使用阻塞的TCP socket进行数据传输，也是最常见的模式。</p>
+</li>
+<li><p>THttpTransport：采用http传输协议进行数据传输。</p>
+</li>
+<li><p>TFileTransport：文件（日志）传输类，允许client将文件传给server，允许server将收到的数据写到文件中。</p>
+</li>
+<li><p>TZlibTransport：与其他transport配合使用，压缩后对数据进行传输，或者将收到的数据解压。</p>
+</li>
+</ul>
+<h2 id="TProtocol"><a href="#TProtocol" class="headerlink" title="TProtocol"></a>TProtocol</h2><p>TProtocol的主要任务是把TTransport中的字节流转换为数据流。在TProtocol这一层就会出现具有数据类型的数据，如整型、浮点数、字符串和结构体等。TProtocol中数据虽然有了数据类型，但TProtocol只会按照指定类型将数据读出和写入，而对于数据的真正用途，需要在thrift自动生成的server和client中处理。</p>
+<p>thrift可以让用户选择客户端与服务端之间传输通信协议的类别，在传输协议上总体划分为文本和二进制传输协议，以节约带宽，提高传输效率，一般情况下使用二进制类型的传输协议为大多数。常用协议有以下几种：</p>
+<ul>
+<li><p>TBinaryProtocl：二进制编码格式</p>
+</li>
+<li><p>TCompactProtocol：高效率的、密集的二进制编码格式</p>
+</li>
+<li><p>TJSONProtocol：使用JSON的数据编码协议进行数据传输</p>
+</li>
+<li><p>TSimpleJSONProtocol：提供JSON只写协议，生成的文件很容易通过脚本语言解析</p>
+</li>
+<li><p>TDebugProtocol：简单易懂的文本格式，以便于debug</p>
+</li>
+</ul>
+<h2 id="TProcessor"><a href="#TProcessor" class="headerlink" title="TProcessor"></a>TProcessor</h2><p>TProcessor主要对TServer中一次请求的inputProtocol和outputProtocol进行操作，也就是从inputProtocol中读出client的请求数据，向outputProtocol写入用户逻辑的返回值。TProcessorprocess是一个非常关键的处理函数，因为client所有的rpc调用都会经过该函数处理并转发。</p>
+<p>TProcessor对一次rpc调用的处理流程可以概括为：</p>
+<ol>
+<li><p>TServer接收到rpc请求之后，调用TProcessorprocess进行处理。</p>
+</li>
+<li><p>TProcessorprocess首先调用TTransport.readMessageBegin接口，读出rpc调用的名称和rpc调用类型。如果rpc调用类型是rpc call，则调用TProcessor.process_fn继续处理，对于未知的rpc调用类型，则抛出异常。</p>
+</li>
+<li><p>TProcessor.process_fn根据rpc调用名称，到自己的processMap中查找对应的rpc处理函数。如果存在对应的rpc处理函数，则调用该处理函数继续进行请求响应。不存在则抛出异常。</p>
+</li>
+</ol>
+<p>而rpc处理函数是rpc请求的最终步骤，主要有以下三个过程：</p>
+<ol>
+<li><p>调用rpc请求参数的解析类，从TProtocol中读入数据完成参数解析。不管rpc调用的参数有多少个，thrift都会将参数放到一个结构体中。thrift会检查读出参数的字段id和字段类型是否与要求的参数匹配。对于不符合要求的参数都会跳过。这样，rpc接口发生变化之后，旧的处理函数在不做修改的情况下，可以通过跳过不认识的参数，来继续提供服务。</p>
+</li>
+<li><p>参数解析完后，调用用户逻辑，完成真正的请求响应。</p>
+</li>
+<li><p>用户逻辑的返回值使用返回值打包类进行打包，写入TProtocol。</p>
+</li>
+</ol>
+<h2 id="ThriftClient"><a href="#ThriftClient" class="headerlink" title="ThriftClient"></a>ThriftClient</h2><p>ThriftClient跟TProcessor一样主要操作inputProtocol和outputProtocol，不同的是thriftClient将rpc调用分为send和receive两个步骤：</p>
+<ol>
+<li><p>send步骤，将用户的调用参数作为一个整体的struct写入TProtocol，并发送到TServer。</p>
+</li>
+<li><p>send结束后，thriftClient便立即进入receive状态等待TServer的响应。对于TServer的响应，使用返回值解析类进行返回值解析，完成rpc调用。</p>
+</li>
+</ol>
 
       
 
@@ -228,7 +298,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cgo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">rpc</a>
         		</li>
       		
 		</ul>
@@ -284,7 +354,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/07/cgo-pointer/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/05/02/thrift/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -298,18 +368,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/02/thrift/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          thrift源码阅读总结
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/02/25/cgo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">go语言与c语言的相互调用</div>
+    <a href="/2018/03/07/cgo-pointer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">cgo的指针传递</div>
       <i class="icon-circle-right"></i>
     </a>
   
